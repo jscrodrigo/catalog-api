@@ -15,5 +15,9 @@
         public int Amount { get; set; }
 
         public DateTime RegisterDate { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public Category? Category { get; set; }
     }
 }
