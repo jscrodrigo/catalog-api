@@ -21,7 +21,10 @@ namespace CatalogApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Category>> Get()
         {
-            var categories = _context.Categories.ToList();
+            var categories = _context.Categories?
+                .Take(10)
+                .AsNoTracking()
+                .ToList();
 
             if (null == categories || !categories.Any())
             {
@@ -34,7 +37,10 @@ namespace CatalogApi.Controllers
         [HttpGet("products")]
         public ActionResult<IEnumerable<Category>> GetCategoryWithProducts()
         {
-            return _context.Categories.Include(p => p.Products).ToList();
+            return _context.Categories
+                .Include(p => p.Products)
+                .Where(c => c.Id <= 5)
+                .ToList();
         }
 
         [HttpGet("{id:int}", Name = "GetCategoryById")]

@@ -21,7 +21,11 @@ namespace CatalogApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> Get()
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products?
+                .Take(10)
+                .AsNoTracking()
+                .ToList();
+
             if (null == products || !products.Any())
             {
                 return NotFound("Products not found.");
