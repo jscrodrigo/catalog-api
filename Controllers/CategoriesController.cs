@@ -21,17 +21,26 @@ namespace CatalogApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Category>> Get()
         {
-            var categories = _context.Categories?
-                .Take(10)
-                .AsNoTracking()
-                .ToList();
 
-            if (null == categories || !categories.Any())
+            try
             {
-                return NotFound("Categories not found!");
-            }
+                var categories = _context.Categories?
+                    .Take(10)
+                    .AsNoTracking()
+                    .ToList();
 
-            return Ok(categories);
+                if (null == categories || !categories.Any())
+                {
+                    return NotFound("Categories not found!");
+                }
+                return Ok(categories);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    "An error has occured while dealing your request...");
+            }
         }
 
         [HttpGet("products")]
