@@ -36,7 +36,7 @@ namespace CatalogApi.Controllers
         [HttpGet("{id:int}", Name="GetProduct")]
         public ActionResult<Product> GetById(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var product = _context.Products?.FirstOrDefault(p => p.Id == id);
 
             if(null == product)
             {
@@ -83,14 +83,14 @@ namespace CatalogApi.Controllers
         [HttpDelete("{id:int}")]
         public ActionResult DeleteById(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var product = _context.Products?.FirstOrDefault(p => p.Id == id);
 
             if (null == product)
             {
                 return NotFound("The specified product was not found.");
             }
 
-            _context.Products.Remove(product);
+            _context.Products?.Remove(product);
             _context.SaveChanges();
 
             return Ok(product);
